@@ -2,7 +2,6 @@
 
 # Boilerplate
 import sys
-sys.path.insert(1,"/home/user/bin/rxnlvl/") # Change this to the full path of rxnlvl
 from rxnlvl import *
 
 # Plot
@@ -10,7 +9,7 @@ p = plot([25.0,10.0],vbuf=10.0,hbuf=5.0,bgcolour=None, qualified='sortof')
 
 p +  level(energy(   00, 'kjmol'),  1,    '1',      0x0)
 p +  level(energy(  -85.5, 'kjmol'),  2,  'EC1',      0x0)
-p +  level(energy(  244, 'kjmol'),  3, 'TS1a', 0xFF4444)
+p +  level(energy(  144, 'kjmol'),  3, 'TS1a', 0xFF4444)
 p +  level(energy(   51, 'kjmol'),  3, 'TS1b',      0x0)
 p +  level(energy( -102, 'kjmol'),  4,  'DC1',      0x0)
 p +  level(energy(  -82, 'kjmol'),  5,    '2',      0x0)
@@ -40,4 +39,6 @@ p +  edge(    '4',    '5', 0x0, 0.4, 'normal')
 
 p + baseline(energy( 0.0, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
 
-p.write()
+svg = p.write((-150,280))
+with open('test2.svg', 'w') as f:
+  f.write(svg)

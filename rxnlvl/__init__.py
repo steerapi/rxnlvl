@@ -17,11 +17,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from energy import energy
-from level  import level
-from edge   import edge
-from baseline import baseline
-from rxnlvl_util import validateColour, appendTextFile
+from .energy import energy
+from .level  import level
+from .edge   import edge
+from .baseline import baseline
+from .rxnlvl_util import validateColour, appendTextFile
 import sys, os
 
 class plot():
@@ -112,7 +112,7 @@ class plot():
         return([ energyRange[0]-(bufsize/100.0)*diff,
                  energyRange[1]+(bufsize/100.0)*diff ])
 
-    def write(self):
+    def write(self, energyRange=None):
         # Determine absolute path
         path = os.path.dirname(__file__)
         svgstring = ''
@@ -128,7 +128,8 @@ class plot():
                           str(hex(self.bgcolour))[2:]
                          ))
         # Calculate some geometry
-        energyRange = self.deriveBufferedEnergyRange(self.vbuf)
+        if energyRange is None:
+            energyRange = self.deriveBufferedEnergyRange(self.vbuf)        
         slices      = ((max([ node.getLocation() for \
                               node in self.nodes ]) -
                         min([ node.getLocation() for \
