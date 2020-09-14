@@ -9,15 +9,15 @@ What do I need?
 ------
 `rxnlvl` requires Python 2.x or later.
 
+###Install:
+
+    pip install rxnlvl
+
 How do I work it?
 ------
 You can import the `rxnlvl` module to draw plots. A parser for those not versed in Python is planned, but even if you don't know python you should still be able to easily create plots. Here's the script that generates part of the image you see above (I truncated it for brevity but you can make plots as long as you want):
 
-    #! /usr/bin/python
-    
-    # Boilerplate
-    import sys
-    sys.path.insert(1,"/home/user/bin/rxnlvl/") # Change this to the full path of rxnlvl
+    #! /usr/bin/python    
     from rxnlvl import *
     
     # Plot
