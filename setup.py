@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
      name='rxnlvl',  
-     version='0.3.0',
+     version='0.3.3',
      scripts=['rxnlvl/__init__.py'] ,
      author="Surat Teerapittayanon",
      author_email="steerapi@gmail.com",
@@ -13,9 +13,9 @@ setuptools.setup(
      long_description_content_type="text/markdown",
      url="https://github.com/steerapi/rxnlvl",
      packages=setuptools.find_packages(),
+     license="GPL",
      classifiers=[
          "Programming Language :: Python :: 3",
-         "License :: OSI Approved :: GPL-3.0",
          "Operating System :: OS Independent",
      ],
  )
