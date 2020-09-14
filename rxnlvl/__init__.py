@@ -114,7 +114,7 @@ class plot():
 
     def write(self):
         # Determine absolute path
-        path = os.path.dirname(unicode(__file__,sys.getfilesystemencoding()))
+        path = os.path.dirname(__file__)
         svgstring = ''
         # Write the preamble for the svg format
         svgstring += appendTextFile('{}/dat/svgprefix.frag'.format(str(path)))
@@ -197,3 +197,4 @@ class plot():
         svgstring += appendTextFile('{0}/dat/svgpostfix.frag'.format(str(path)))
         sys.stderr.write('Normal termination\n')
         sys.stdout.write(svgstring)
+        return svgstring
