@@ -83,7 +83,7 @@ Each edge object takes the folliwing arguments:
 
     p + baseline(energy( 0.0, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
 
-You can only have one baseline. The syntax should be fairly familiar:
+You can have multiple baselines. The syntax should be fairly familiar:
 - `energy` - an `energy` object which represents the relative energy of the baseline. Each energy has 2 arguments - the energy as a floating point number, and the units, which can be `'kjmol'`, `'eh'` (Hartrees), `'ev'` (electronvolts), `'kcal'` (thermochemical kilocalories per mole) or `'wavenumber'`.
 - `colour` - A 24-bit hexadecimal integer representing the colour of the edge.
 - `mode` - Choose either `'normal'` or `'dashed'`. Controls the appearance of the edge in terms of its dashed-linedness.
@@ -91,6 +91,14 @@ You can only have one baseline. The syntax should be fairly familiar:
 
 ###Okay let's plot this.
 
-    p.write()
+    svg = p.write()
+    with open('test.svg', 'w') as f:
+        f.write(svg)
 
-Will dump a `*.svg` file of your plot to `stdout`. Have fun!
+###Okay let's plot this with energy range
+  
+    svg = p.write((-200,200))
+    with open('test.svg', 'w') as f:
+        f.write(svg)
+
+Will return `*.svg` file of your plot . Have fun!
