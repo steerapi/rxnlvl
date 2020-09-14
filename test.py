@@ -38,6 +38,8 @@ p +  edge(    '4',    '5', 0x0, 0.4, 'normal')
 
 
 p + baseline(energy( 0.0, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
+p + baseline(energy( 10.0, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
+p + baseline(energy( 20.0, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
 
 svg = p.write((-150,280))
 with open('test2.svg', 'w') as f:

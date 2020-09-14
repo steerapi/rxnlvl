@@ -38,7 +38,7 @@ class plot():
         self.nodes = []
         self.edges = []
         self.bgcolour = None
-        self.baseline = None
+        self.baselines = []
         try:
             assert len(dimensions) == 2, 'plot dimensions not equal to 2\n'
         except AssertionError as e:
@@ -92,7 +92,7 @@ class plot():
         self.edges.append(edge)
 
     def __add_baseline(self, baseline):
-        self.baseline = baseline
+        self.baselines.append(baseline)
 
     def getNamedNode(self, name):
         for node in self.nodes:
@@ -136,17 +136,17 @@ class plot():
                               node in self.nodes ]))+1)*2-1
         sliceWidth  = (100.0-self.hbuf)/slices
         # Draw baseline if it has been defined
-        if self.baseline != None:
-            self.baseline.setVisualHeight(energyRange)
-        svgstring += ('    <line x1="{0}%" x2="{1}%" y1="{2}%" y2="{2}%" stroke-linecap="round" stroke="#{3}" {4} stroke-opacity="{5}" stroke-width="1"/>\n'.format(
-                          self.baseline.getVisualLeft(),
-                          self.baseline.getVisualRight(),
-                          self.baseline.getVisualHeight(),
-                          # Courtesy of Tim Pietzcker
-                          "{0:#0{1}x}".format(self.baseline.getColour(),8)[2:],
-                          self.baseline.getMode(),
-                          self.baseline.getOpacity()
-                         ))
+        for baseline in self.baselines:
+            baseline.setVisualHeight(energyRange)
+            svgstring += ('    <line x1="{0}%" x2="{1}%" y1="{2}%" y2="{2}%" stroke-linecap="round" stroke="#{3}" {4} stroke-opacity="{5}" stroke-width="1"/>\n'.format(
+                            baseline.getVisualLeft(),
+                            baseline.getVisualRight(),
+                            baseline.getVisualHeight(),
+                            # Courtesy of Tim Pietzcker
+                            "{0:#0{1}x}".format(baseline.getColour(),8)[2:],
+                            baseline.getMode(),
+                            baseline.getOpacity()
+                            ))
          # Iterate over nodes, setting visual sizes
         for node in self.nodes:
             node.setVisualLeft(sliceWidth, self.hbuf)
