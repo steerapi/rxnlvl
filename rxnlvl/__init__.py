@@ -34,11 +34,14 @@ class plot():
    # qualified  = True
 
     def __init__(self, dimensions, bgcolour=None, vbuf=10.0, hbuf=10.0,
-                 qualified=True):
+                 qualified=True, font_size='8pt', dy_name='-16pt', dy_energy='8pt'):
         self.nodes = []
         self.edges = []
         self.bgcolour = None
         self.baselines = []
+        self.font_size = font_size
+        self.dy_name = dy_name
+        self.dy_energy = dy_energy
         try:
             assert len(dimensions) == 2, 'plot dimensions not equal to 2\n'
         except AssertionError as e:
@@ -186,15 +189,19 @@ class plot():
                           # Courtesy of Tim Pietzcker
                           "{0:#0{1}x}".format(node.getColour(),8)[2:]
                          ))
-            svgstring += ('    <text x="{0}%" y="{1}%" dy="-1ex" font-family="sans-serif" text-anchor="middle" fill="#000000">{2}</text>\n'.format(
+            svgstring += ('    <text x="{0}%" y="{1}%" dy="{4}" font-family="sans-serif" text-anchor="middle" font-size="{3}" fill="#000000">{2}</text>\n'.format(
                           node.getVisualLeft()+sliceWidth/2,
                           node.getVisualHeight(),
-                          node.getName()
+                          node.getName(),
+                          self.font_size,
+                          self.dy_name
                          ))
-            svgstring += ('    <text x="{0}%" y="{1}%" dy="1ex" font-family="sans-serif" text-anchor="middle" font-size="8pt" fill="#000000">{2}</text>\n'.format(
+            svgstring += ('    <text x="{0}%" y="{1}%" dy="{4}" font-family="sans-serif" text-anchor="middle" font-size="{3}" fill="#000000">{2}</text>\n'.format(
                           node.getVisualLeft()+sliceWidth/2,
                           node.getVisualHeight()+4,
-                          qualify(node,self.qualified)
+                          qualify(node,self.qualified),
+                          self.font_size,
+                          self.dy_energy
                          ))
         svgstring += '''</svg>
 '''

@@ -5,7 +5,7 @@ import sys
 from rxnlvl import *
 
 # Plot
-p = plot([25.0,10.0],vbuf=10.0,hbuf=5.0,bgcolour=None, qualified='sortof')
+p = plot([25.0,10.0],vbuf=10.0,hbuf=5.0,bgcolour=None, qualified='sortof', font_size='8pt', dy_name='-4pt', dy_energy='-4pt')
 
 p +  level(energy(   00, 'kjmol'),  1,    '1',      0x0)
 p +  level(energy(  -85.5, 'kjmol'),  2,  'EC1',      0x0)
