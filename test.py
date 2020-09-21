@@ -5,7 +5,7 @@ import sys
 from rxnlvl import *
 
 # Plot
-p = plot([25.0,10.0],vbuf=10.0,hbuf=5.0,bgcolour=None, qualified='sortof', font_size_energy='8pt', font_size_name='8pt', dy_name='-4pt', dy_energy='-4pt')
+p = plot([25.0,10.0],vbuf=10.0,hbuf=10.0,bgcolour=None, qualified='sortof', font_size_energy='8pt', font_size_name='8pt', dy_name='-4pt', dy_energy='-4pt', drawAxis=True)
 
 p +  level(energy(   00, 'kjmol'),  1,    '1',      0x0)
 p +  level(energy(  -85.5, 'kjmol'),  2,  'EC1',      0x0)
@@ -36,11 +36,10 @@ p +  edge(  'DC2',    '3', 0x0, 0.4, 'normal')
 p +  edge(    '3',    '4', 0x0, 0.4, 'normal')
 p +  edge(    '4',    '5', 0x0, 0.4, 'normal')
 
+baselines = [i*20 for i in range(-9,9)]
+for base in baselines:
+  p + baseline(energy( base, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
 
-p + baseline(energy( 0.0, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
-p + baseline(energy( 10.0, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
-p + baseline(energy( 20.0, 'kjmol'),colour=0x0,mode='dashed',opacity=0.1)
-
-svg = p.write((-150,280))
+svg = p.write((-200,200))
 with open('test2.svg', 'w') as f:
   f.write(svg)

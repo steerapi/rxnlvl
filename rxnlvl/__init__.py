@@ -34,7 +34,7 @@ class plot():
    # qualified  = True
 
     def __init__(self, dimensions, bgcolour=None, vbuf=10.0, hbuf=10.0,
-                 qualified=True, font_size_name='8pt', font_size_energy='8pt', dy_name='-16pt', dy_energy='8pt'):
+                 qualified=True, font_size_name='8pt', font_size_energy='8pt', dy_name='-16pt', dy_energy='8pt', drawAxis=True):
         self.nodes = []
         self.edges = []
         self.bgcolour = None
@@ -43,6 +43,7 @@ class plot():
         self.font_size_energy = font_size_energy
         self.dy_name = dy_name
         self.dy_energy = dy_energy
+        self.drawAxis = drawAxis
         try:
             assert len(dimensions) == 2, 'plot dimensions not equal to 2\n'
         except AssertionError as e:
@@ -140,23 +141,47 @@ class plot():
                         min([ node.getLocation() for \
                               node in self.nodes ]))+1)*2-1
         sliceWidth  = (100.0-self.hbuf)/slices
+
+        adjustLeft = 0
+        adjustRight = 0
+        adjustLeftTick = 0
+
+        if self.drawAxis == True:
+            adjustLeft = 5
+            adjustRight = -1
+            adjustLeftTick = adjustLeft - 1
+        
         # Draw baseline if it has been defined
         for baseline in self.baselines:
             baseline.setVisualHeight(energyRange)
             svgstring += ('    <line x1="{0}%" x2="{1}%" y1="{2}%" y2="{2}%" stroke-linecap="round" stroke="#{3}" {4} stroke-opacity="{5}" stroke-width="1"/>\n'.format(
-                            baseline.getVisualLeft(),
-                            baseline.getVisualRight(),
+                            baseline.getVisualLeft()+adjustLeft,
+                            baseline.getVisualRight()+adjustRight,
                             baseline.getVisualHeight(),
                             # Courtesy of Tim Pietzcker
                             "{0:#0{1}x}".format(baseline.getColour(),8)[2:],
                             baseline.getMode(),
                             baseline.getOpacity()
                             ))
+            svgstring += ('    <text x="{0}%" y="{1}%" dy="{3}" dx="{4}" font-family="sans-serif" text-anchor="end" font-size="{5}" fill="#000000">{2}</text>'.format(
+                baseline.getVisualLeft()+adjustLeftTick,
+                baseline.getVisualHeight(),
+                baseline.getEnergy(),
+                str(int(self.font_size_energy[:-2])//2),
+                0,
+                self.font_size_energy,
+            ))
          # Iterate over nodes, setting visual sizes
         for node in self.nodes:
             node.setVisualLeft(sliceWidth, self.hbuf)
             node.setVisualRight(sliceWidth, self.hbuf)
             node.setVisualHeight(energyRange)
+        shiftLeft = 0
+        if self.drawAxis:
+            shiftLeft = self.dimensions[0]*(4/100)*37.7952755906/2
+        svgstring += ('<g transform="translate({0}, 0)">'.format(
+            shiftLeft
+        ))
         # Iterate over edges, find the nodes that each edge
         # connects and draw edges between them
         for edge in self.edges:
@@ -204,6 +229,24 @@ class plot():
                           self.font_size_energy,
                           self.dy_energy
                          ))
+        svgstring += '</g>'
+
+        # draw Y axis
+        if self.drawAxis == True:
+            # main line
+            svgstring += ('    <line x1="{0}%" x2="{1}%" y1="{2}%" y2="{3}%" stroke="#000" stroke-width="1" stroke-opacity="1" />\n'.format(
+                5,
+                5,
+                5,
+                99,
+            ))
+            # main line
+            svgstring += ('    <line x1="{0}%" x2="{1}%" y1="{2}%" y2="{3}%" stroke="#000" stroke-width="1" stroke-opacity="1" />\n'.format(
+                5,
+                99,
+                99,
+                99,
+            ))
         svgstring += '''</svg>
 '''
         return svgstring
