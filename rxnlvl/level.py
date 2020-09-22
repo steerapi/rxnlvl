@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+import re
 from .rxnlvl_util import validateColour
 
 class level:
@@ -88,6 +89,11 @@ class level:
     def getColour(self):
         # The colour of the level
         return(self.colour)
+
+    def getSVGName(self):
+        def repl(var):
+            return ('<tspan baseline-shift="sub">{}</tspan>'.format(var.group(1)))
+        return re.sub("\((\d)\)", repl, self.name)        
 
     def getName(self):
         # The external name of the level

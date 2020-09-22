@@ -34,7 +34,7 @@ class plot():
    # qualified  = True
 
     def __init__(self, dimensions, bgcolour=None, vbuf=10.0, hbuf=10.0,
-                 qualified=True, font_size_name='8pt', font_size_energy='8pt', dy_name='-16pt', dy_energy='8pt', drawAxis=True):
+                 qualified=True, font_size_name='8pt', font_size_energy='8pt', dy_name='-16pt', dy_energy='8pt', drawAxis=True, drawName=True, drawEnergy=True):
         self.nodes = []
         self.edges = []
         self.bgcolour = None
@@ -44,6 +44,8 @@ class plot():
         self.dy_name = dy_name
         self.dy_energy = dy_energy
         self.drawAxis = drawAxis
+        self.drawEnergy = drawEnergy
+        self.drawName = drawName
         try:
             assert len(dimensions) == 2, 'plot dimensions not equal to 2\n'
         except AssertionError as e:
@@ -215,20 +217,23 @@ class plot():
                           # Courtesy of Tim Pietzcker
                           "{0:#0{1}x}".format(node.getColour(),8)[2:]
                          ))
-            svgstring += ('    <text x="{0}%" y="{1}%" dy="{4}" font-family="sans-serif" text-anchor="middle" font-size="{3}" fill="#000000">{2}</text>\n'.format(
-                          node.getVisualLeft()+sliceWidth/2,
-                          node.getVisualHeight(),
-                          node.getName(),
-                          self.font_size_name,
-                          self.dy_name
-                         ))
-            svgstring += ('    <text x="{0}%" y="{1}%" dy="{4}" font-family="sans-serif" text-anchor="middle" font-size="{3}" fill="#000000">{2}</text>\n'.format(
-                          node.getVisualLeft()+sliceWidth/2,
-                          node.getVisualHeight()+4,
-                          qualify(node,self.qualified),
-                          self.font_size_energy,
-                          self.dy_energy
-                         ))
+            if self.drawName:
+                svgstring += ('    <text x="{0}%" y="{1}%" dy="{4}" font-family="sans-serif" text-anchor="middle" font-size="{3}" fill="#000000">{2}</text>\n'.format(
+                            node.getVisualLeft()+sliceWidth/2,
+                            node.getVisualHeight(),
+                            node.getSVGName(),
+                            self.font_size_name,
+                            self.dy_name
+                            ))
+            # draw energy
+            if self.drawEnergy:
+                svgstring += ('    <text x="{0}%" y="{1}%" dy="{4}" font-family="sans-serif" text-anchor="middle" font-size="{3}" fill="#000000">{2}</text>\n'.format(
+                            node.getVisualLeft()+sliceWidth/2,
+                            node.getVisualHeight()+4,
+                            qualify(node,self.qualified),
+                            self.font_size_energy,
+                            self.dy_energy
+                            ))
         svgstring += '</g>'
 
         # draw Y axis
