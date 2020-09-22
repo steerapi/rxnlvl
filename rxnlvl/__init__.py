@@ -222,10 +222,13 @@ class plot():
                 def repl(var):
                     return str(float(var.group(1)) + node.getDy())
                 dy = re.sub('(\d)+', repl, self.dy_name)
+                def replSub(var):
+                    return str(float(var.group(1)) * 0.75)                
+                subFontSize = re.sub('(\d)+', replSub, self.font_size_name)
                 svgstring += ('    <text x="{0}%" y="{1}%" dy="{4}" font-family="sans-serif" text-anchor="middle" font-size="{3}" fill="#000000">{2}</text>\n'.format(
                             node.getVisualLeft()+sliceWidth/2,
                             node.getVisualHeight(),
-                            node.getSVGName(),
+                            node.getSVGName(subFontSize),
                             self.font_size_name,
                             dy
                             ))

@@ -95,11 +95,11 @@ class level:
     def getDy(self):
         return(self.dy)
 
-    def getSVGName(self):
+    def getSVGName(self, fontSize="6pt"):
         if not self.drawName:
             return ''
         def repl(var):
-            return ('<tspan baseline-shift="sub">{}</tspan>'.format(var.group(1)))
+            return ('<tspan baseline-shift="sub" font-size="{0}">{1}</tspan>'.format(fontSize, var.group(1)))
         return(re.sub("\((\d)\)", repl, self.name))
 
     def getName(self):
