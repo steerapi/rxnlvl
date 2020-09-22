@@ -23,6 +23,7 @@ from .edge   import edge
 from .baseline import baseline
 from .rxnlvl_util import validateColour, appendTextFile
 import sys, os
+import re
 
 class plot():
    # dimensions = [0,0]
@@ -218,12 +219,15 @@ class plot():
                           "{0:#0{1}x}".format(node.getColour(),8)[2:]
                          ))
             if self.drawName:
+                def repl(var):
+                    return str(float(var.group(1)) + node.getDy())
+                dy = re.sub('(\d)+', repl, self.dy_name)
                 svgstring += ('    <text x="{0}%" y="{1}%" dy="{4}" font-family="sans-serif" text-anchor="middle" font-size="{3}" fill="#000000">{2}</text>\n'.format(
                             node.getVisualLeft()+sliceWidth/2,
                             node.getVisualHeight(),
                             node.getSVGName(),
                             self.font_size_name,
-                            self.dy_name
+                            dy
                             ))
             # draw energy
             if self.drawEnergy:
