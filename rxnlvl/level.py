@@ -30,9 +30,10 @@ class level:
    # visual_right  = None # float, internal
    # visual_height = None # float, internal
 
-    def __init__(self, energy, location, name=None, colour=0x0):
+    def __init__(self, energy, location, name=None, colour=0x0, drawName = True):
         # Validation of energy is done inside energy class
         self.energy = energy
+        self.drawName = drawName
         # Validate location. Locations must be positive nonzero integers. Locations should start at 1 and be contiguous.
         try:
             assert type(location) == int, '{0} does not have an integer location.\n'.format(
@@ -91,6 +92,8 @@ class level:
         return(self.colour)
 
     def getSVGName(self):
+        if not self.drawName:
+            return ''
         def repl(var):
             return ('<tspan baseline-shift="sub">{}</tspan>'.format(var.group(1)))
         return re.sub("\((\d)\)", repl, self.name)        
