@@ -30,11 +30,12 @@ class level:
    # visual_right  = None # float, internal
    # visual_height = None # float, internal
 
-    def __init__(self, energy, location, name=None, colour=0x0, drawName=True, dy=0):
+    def __init__(self, energy, location, name=None, colour=0x0, drawName=True, dy=0, extendFactor=1.5):
         # Validation of energy is done inside energy class
         self.energy = energy
         self.drawName = drawName
         self.dy = dy
+        self.extendFactor = extendFactor
         # Validate location. Locations must be positive nonzero integers. Locations should start at 1 and be contiguous.
         try:
             assert type(location) == int, '{0} does not have an integer location.\n'.format(
@@ -131,7 +132,10 @@ class level:
 
     def setVisualRight(self, sliceWidth, hbuf):
         # Internal setter for the visual x-pos of the right hand side of the level, expressed as a percentage coordinate on the canvas
-        self.visual_right = (float(self.location-1)*(sliceWidth*2)+sliceWidth)+(hbuf/2)
+        self.visual_right = (float(self.location-1)*(sliceWidth*2)+sliceWidth*self.extendFactor)+(hbuf/2)
+
+    def getExtendFactor(self):
+        return(self.extendFactor)
 
     def getVisualRight(self):
         # Getter for the visual x-pos of the right hand side of the level, expressed as a percentage coordinate on the canvas
