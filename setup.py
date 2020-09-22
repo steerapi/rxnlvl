@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
      name='rxnlvl',  
-     version='0.3.7',
+     version='0.3.8',
      scripts=['rxnlvl/__init__.py'] ,
      author="Surat Teerapittayanon",
      author_email="steerapi@gmail.com",
